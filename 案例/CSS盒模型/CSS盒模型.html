@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>CSS盒模型</title>
+    <style>
+        html * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .clearfix:after {
+            content: '';
+            clear: both;
+            height: 0;
+            display: block;
+            visibility: hidden;
+        }
+
+        /* 父子BFC */
+        #test1 {
+            position: relative;
+            width: 300px;
+            left: 50%;
+            top: 30px;
+            transform: translate(-50%, 0);
+            background: yellow;
+            /* 创建BFC */
+            overflow: hidden;
+        }
+
+        #test1 .child {
+            margin-top: 30px;
+            background: #FF2222;
+            width: 100%;
+            height: 300px;
+        }
+
+        /* 兄弟BFC */
+        #test2 {
+            position: relative;
+            width: 300px;
+            left: 50%;
+            top: 60px;
+            transform: translate(-50%, 0);
+            background: yellow;
+            /* 创建BFC */
+            overflow: hidden;
+        }
+
+        #test2 .child1,
+        #test2 .child2,
+        #test2 .child3 {
+            margin-top: 5px;
+            margin-bottom: 30px;
+            background: #FF2222;
+            height: 100px;
+        }
+
+        #test2 .child3-wrapper {
+            background: #CCC;
+            /* 创建BFC */
+            overflow: hidden;
+        }
+
+        /* 处理浮动特性 */
+        #test3 {
+            position: relative;
+            width: 700px;
+            left: 50%;
+            top: 90px;
+            transform: translate(-50%, 0);
+            background: yellow;
+        }
+
+        #test3 .child1 {
+            background: #CCC;
+            float: left;
+            width: 100px;
+            height: 40px;
+        }
+
+        #test3 .child2 {
+            background: #FF2222;
+            width: 600px;
+            height: 100px;
+            /* float:left也能变成BFC */
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 父子边距重叠 -->
+    <div id="test1">
+        <div class="child"></div>
+    </div>
+    <!-- 兄弟边距重叠 -->
+    <div id="test2">
+        <div class="child1"></div>
+        <div class="child2"></div>
+        <!-- 这里的child3的上边距和下边距就不会重合 -->
+        <div class="child3-wrapper">
+            <div class="child3"></div>
+        </div>
+    </div>
+    <!-- 处理BFC的区域不会与浮动元素重叠 -->
+    <div id="test3" class="clearfix">
+        <div class="child1"></div>
+        <div class="child2"></div>
+    </div>
+</body>
+
+</html>

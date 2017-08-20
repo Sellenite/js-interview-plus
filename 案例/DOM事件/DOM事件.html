@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DOM事件</title>
+</head>
+
+<body>
+    <div id="test1">event.stopImmediatePropagation()</div>
+    <div id="test2">new Event</div>
+    <div id="test3">new CustomEvent</div>
+    <div id="test4">event Capture</div>
+    <script type="text/javascript">
+        (function () {
+            // event.stopImmediatePropagation()用法
+            var test1 = document.querySelector('#test1')
+            test1.addEventListener('click', function () {
+                console.log('this is function1')
+            }, false)
+            test1.addEventListener('click', function (event) {
+                event.stopImmediatePropagation()
+                console.log('this is function2')
+            }, false)
+            test1.addEventListener('click', function () {
+                //该监听函数排在上个函数后面,该函数不会被执行.
+                console.log('this is function3')
+            }, false)
+
+            // 自定义事件Event
+            var test2 = document.querySelector('#test2')
+            var eve = new Event('custome')
+            test2.addEventListener('custome', function () {
+                console.log('this is new Event')
+            }, false)
+            test2.addEventListener('click', function () {
+                test2.dispatchEvent(eve)
+            }, false)
+
+            // 自定义事件CustomEvent
+            var test3 = document.querySelector('#test3')
+            var customEvent = new CustomEvent('customEvent', {
+                detail: {
+                    newSet: true
+                }
+            })
+            test3.addEventListener('customEvent', function (event) {
+                console.log('this is new CustomEvent with property', event.detail)
+            }, false)
+            test3.addEventListener('click', function () {
+                test3.dispatchEvent(customEvent)
+            }, false)
+
+            // 事件捕获流程
+            var test4 = document.querySelector('#test4')
+            window.addEventListener('click', function () {
+                console.log('window')
+            }, true)
+            document.addEventListener('click', function () {
+                console.log('document')
+            }, true)
+            document.documentElement.addEventListener('click', function () {
+                console.log('html')
+            }, true)
+            document.body.addEventListener('click', function () {
+                console.log('body')
+            }, true)
+            test4.addEventListener('click', function () {
+                console.log('test4')
+            }, true)
+        })()
+    </script>
+</body>
+
+</html>

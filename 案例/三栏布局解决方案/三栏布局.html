@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js-interview-plus</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .clearfix:after {
+            content: '';
+            clear: both;
+            height: 0;
+            display: block;
+            visibility: hidden;
+            overflow: hidden;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        /* 绝对定位解决三栏布局 */
+
+        #test1 {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            background: #CCC;
+        }
+
+        #test1 .center {
+            position: absolute;
+            left: 100px;
+            right: 100px;
+            height: 100%;
+            background: #aaffff;
+        }
+
+        #test1 .left {
+            width: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ffaaff;
+            height: 100%;
+        }
+
+        #test1 .right {
+            width: 100px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            background: #ffffaa;
+        }
+        /* 自身浮动解决三栏布局 */
+
+        #test2 {
+            height: 100%;
+            width: 100%;
+            background: #CCC;
+        }
+
+        #test2 .center {
+            margin: 0 100px;
+            height: 100%;
+            background: #823193;
+        }
+
+        #test2 .left {
+            width: 100px;
+            float: left;
+            background: #96D751;
+            height: 100%;
+        }
+
+        #test2 .right {
+            width: 100px;
+            float: right;
+            height: 100%;
+            background: #B83541;
+        }
+        /* 两列布局中再次运用两列布局 */
+
+        #test3 {
+            height: 100%;
+            width: 100%;
+            background: #CCC;
+        }
+
+        #test3 .left {
+            width: 100px;
+            height: 100%;
+            float: left;
+            background: #A41820
+        }
+
+        #test3 .right {
+            margin-left: 100px;
+            height: 100%;
+        }
+
+        #test3 .right1 {
+            width: 68%;
+            height: 100%;
+            background: #307DEB;
+            float: left
+        }
+
+        #test3 .right2 {
+            width: 32%;
+            height: 100%;
+            background: #DCBA3E;
+            float: right;
+        }
+        /* flex定位三栏 */
+
+        #test4 {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            background: #CCC;
+        }
+
+        #test4 .center {
+            flex: 1;
+            height: 100%;
+            background: #55F1F1;
+        }
+
+        #test4 .left {
+            flex: 0 0 180px;
+            width: 180px;
+            background: #ffaaff;
+            height: 100%;
+        }
+
+        #test4 .right {
+            width: 180px;
+            flex: 0 0 180px;
+            height: 100%;
+            background: #C2AAFF;
+        }
+        /* table-cell布局三栏 */
+
+        #test5 {
+            display: table;
+            width: 100%;
+            height: 100%
+        }
+
+        #test5 .center,
+        #test5 .left,
+        #test5 .right {
+            display: table-cell;
+            height: 100%;
+        }
+
+        #test5 .center {
+            background: #5FED80;
+        }
+
+        #test5 .left {
+            width: 100px;
+            background: rgba(66, 213, 196, 0.69);
+        }
+
+        #test5 .right {
+            width: 200px;
+            background: rgba(237, 95, 144, 0.69);
+        }
+        /* 网格布局 */
+        #test6 {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-rows: 100%;
+            grid-template-columns: 150px auto 150px;
+        }
+
+        #test6 .center {
+            background: #172848;
+        }
+
+        #test6 .left {
+            background: #552344;
+        }
+
+        #test6 .right {
+            background: #136644;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 绝对定位法 -->
+    <div id="test1" class="clearfix">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <!-- 自身浮动法 -->
+    <div id="test2" class="clearfix">
+        <!-- 注意自身浮动法，需要将center放在最后，float:right
+            后不会对前面的元素有影响，也就是如果center放在前面，
+            它还没有脱离文档流，所以会造成最后一列在下面 -->
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="center"></div>
+    </div>
+    <!-- 两层套两层法 -->
+    <div id="test3" class="clearfix">
+        <div class="left"></div>
+        <div class="right clearfix">
+            <div class="right1"></div>
+            <div class="right2"></div>
+        </div>
+    </div>
+    <!-- flex布局法 -->
+    <div id="test4" class="clearfix">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <!-- table-cell布局法 -->
+    <div id="test5">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+    <!-- 网格布局 -->
+    <div id="test6">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+    </div>
+</body>
+
+</html>
