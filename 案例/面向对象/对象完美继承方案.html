@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ES6继承完美方案</title>
+</head>
+
+<body>
+    <div id="test1"></div>
+    <script type="text/javascript">
+        class Parent {
+            constructor(name, age) {
+                this.name = name
+                this.age = age
+            }
+
+            say() {
+                return 'this is parent'
+            }
+        }
+
+        // ES6语法糖继承
+        class Child extends Parent {
+            constructor(name, age, type) {
+                // super必须放在第一行
+                super(name, age)
+                this.type = type
+            }
+
+            sayChild() {
+                // 利用super调用父构造函数
+                return super.say()
+            }
+        }
+
+        var children = new Child('yuuhei', 22, 'child')
+        var parent = new Parent('sellenite', 23)
+
+        console.log(children)
+        console.log(children.say())
+        console.log(children.sayChild())
+
+        ////////////////////////////////////////////////////////////////
+
+        // ES5原生实现完美继承
+        var Parent1 = function (name, age) {
+            this.name = name
+            this.age = age
+            this.say = function () {
+                console.log('say from parent constructor')
+            }
+        }
+
+        Parent1.prototype.sayALL = function () {
+            console.log('sayALL from parent prototype')
+        }
+
+        // 完美继承
+        var Child1 = function (name, age, type) {
+            Parent1.apply(this, [name, age])
+            this.type = type
+        }
+        Child1.prototype = Object.create(Parent1.prototype)
+        Child1.prototype.constructor = Child1
+
+        var child1 = new Child1('yuuhei', '22', 'child1')
+    </script>
+</body>
+
+</html>
