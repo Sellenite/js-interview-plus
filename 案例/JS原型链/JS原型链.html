@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS原型链</title>
+</head>
+
+<body>
+    <div id="test1"></div>
+    <script type="text/javascript">
+        (function () {
+            // 创建对象的方法
+            // 一类
+            var obj1 = { name: 'yuuhei' }
+            var obj2 = new Object({ name: 'Sellenite' })
+
+            // 二类
+            var Obj = function (name) {
+                this.name = name
+            }
+            var obj3 = new Obj('satellite')
+
+            // 三类
+            var p = { name: 'create' }
+            var obj4 = Object.create(p)
+
+            // 测试原型链之间的关系
+            console.log(obj3.__proto__ === Obj.prototype)   // true
+            console.log(Obj.__proto__ === Function.prototype)   // true
+            console.log(Obj.prototype.__proto__ === Object.prototype)   // true
+            console.log(Obj.prototype.constructor === Obj)  // true
+            Obj.prototype.say = function () {
+                console.log(this.name)
+            }
+            obj3.say()  // satellite
+            Object.prototype.fullpage = function () {
+                console.log('this function is from origin Object')
+            }
+            obj4.fullpage()
+
+            // instanceof用法
+            console.log(obj3 instanceof Obj)    // true
+            console.log(obj3 instanceof Object)     // true
+            console.log(obj3.__proto__.constructor === Obj)  // true
+            console.log(obj3.__proto__.constructor === Object)  // false
+
+            // new原理
+            var Foo = function (age, name) {
+                this.age = age
+                this.name = name
+            }
+
+            var new2 = function (Foo, ...args) {
+                var obj = Object.create(Foo.prototype)
+                var k = Foo.apply(obj, args)
+                if (typeof k === 'object') {
+                    return k
+                } else {
+                    // 构造函数不返回对象时执行，一般情况下是执行这行
+                    return obj
+                }
+            }
+
+            var foo = new2(Foo, 22, 'yuuhei')
+            console.log(foo, foo instanceof Foo)
+
+            // Object.create()
+            console.log(obj4.__proto__ === p)   // true
+        })()
+    </script>
+</body>
+
+</html>
