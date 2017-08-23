@@ -64,7 +64,15 @@
             this.type = type
         }
         Child1.prototype = Object.create(Parent1.prototype)
+        // 这里直接赋值会造成constructor在实例中能在原型链上被枚举
         Child1.prototype.constructor = Child1
+        /* 可选，通过以下方式使constructor不能被枚举 */
+        Object.defineProperty(Child1.prototype, 'constructor', {
+            writable: false,
+            enumerable: false,
+            constructor: false,
+            value: Child1
+        })
 
         var child1 = new Child1('yuuhei', '22', 'child1')
     </script>
