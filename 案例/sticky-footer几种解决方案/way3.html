@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>sticky-footer 3</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            min-height: 100%;
+            height: auto !important;
+            height: 100%;
+            margin: 0 auto -60px;
+            /*margin-bottom的负值等于footer高度*/
+        }
+
+        .push,
+        #footer {
+            height: 60px;
+            clear: both;
+        }
+        /*==========其他div效果==========*/
+
+        #header {
+            padding: 10px;
+            background: lime;
+        }
+
+        #left {
+            width: 18%;
+            float: left;
+            margin-right: 2%;
+            background: orange;
+        }
+
+        #content {
+            width: 60%;
+            float: left;
+            margin-right: 2%;
+            background: green;
+        }
+
+        #right {
+            width: 18%;
+            float: left;
+            background: yellow;
+        }
+
+        #footer {
+            background: #f6c;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">Header Section</div>
+        <div id="page" class="clearfix">
+            <div id="left">Left sidebar</div>
+            <div id="content">Main Content</div>
+            <div id="right">Right Content</div>
+        </div>
+        <div class="push">
+            <!-- not put anything here -->
+        </div>
+    </div>
+    <div id="footer">Footer Section</div>
+</body>
+
+</html>
