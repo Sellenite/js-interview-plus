@@ -63,6 +63,7 @@
             Parent1.apply(this, [name, age])
             this.type = type
         }
+        // Object.create(..)它会创建一个对象并把这个对象的[[Prototype]]关联到指定的对象
         Child1.prototype = Object.create(Parent1.prototype)
         // 这里直接赋值会造成constructor在实例中能在原型链上被枚举
         Child1.prototype.constructor = Child1
