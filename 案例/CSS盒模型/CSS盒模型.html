@@ -116,6 +116,12 @@
         <div class="child1"></div>
         <div class="child2"></div>
     </div>
+    <div>
+        <p>没有设置BFC的元素，垂直方向的边距会发生重叠</p>
+        <p>BFC的区域不会与浮动元素的区域进行重叠，这也是为什么三栏布局中，left，right，middle时middle会占据中间的位置，就是因为left和right有浮动，形成了BFC</p>
+        <p>BFC是一个独立的容器，外面的元素不会影响到里面的元素，反过来也是</p>
+        <p>计算BFC高度的时候，里面浮动的元素也会参与计算，这也是清除浮动的原因</p>
+    </div>
 </body>
 
 </html>

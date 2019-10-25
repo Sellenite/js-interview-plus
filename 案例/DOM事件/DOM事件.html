@@ -13,6 +13,12 @@
     <div id="test2">new Event</div>
     <div id="test3">new CustomEvent</div>
     <div id="test4">event Capture</div>
+    <div>
+        <p>事件级别:</p>
+        <p>DOM0: element.onclick = function() {}</p>
+        <p>DOM2: element.addEventListener('click', function(){}, false)</p>
+        <p>DOM3: element.addEventListener('keyup', function(){}, false)</p>
+    </div>
     <script type="text/javascript">
         (function () {
             // event.stopImmediatePropagation()用法
@@ -70,6 +76,17 @@
             test4.addEventListener('click', function () {
                 console.log('test4')
             }, true)
+
+            var app = document.getElementById('test1');
+            // 不精确，带单位
+            var height1 = getComputedStyle(app).width;
+            console.log(height1);
+            // 精确，不带单位
+            var height2 = app.getBoundingClientRect().width;
+            console.log(height2);
+            // 只能拿到内联，内联没有设置的话就是没有
+            var styleHeight = app.style.height;
+            console.log(styleHeight);
         })()
     </script>
 </body>
