@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>类型转换</title>
+</head>
+
+<body>
+    <div>
+        <p>数据类型：</p>
+        <p>原始类型：Boolean，Null，Undefined，Number，String，Symbol</p>
+        <p>引用类型：Object</p>
+    </div>
+    <div>
+        <p>显示类型转换：</p>
+        <p>Number()，String()，Boolean()</p>
+    </div>
+    <script type="text/javascript">
+        /**
+         * Number函数，显式对原始类型进行转换的规则
+         * 数值：转换后还是原来的值
+         * 字符串：如果可以解析为数值，则转换为对应的数值，否则得到NaN，空字符串转换为0
+         * 布尔值：true转为1，false转为0
+         * undefined：转成NaN
+         * null：转成0
+         */
+        /**
+         * Number函数，显式/隐式对对象类型进行转换的规则
+         * 先调用自身的valueOf方法，如果该方法返回原始类型的值（数值，字符串，布尔值），则直接对该值使用Number方法，不再进行后续步骤
+         * 如果valueOf返回的是复合类型的值，则再调用自身的toString方法，如果返回的是原始类型的值，则直接对该值使用Number方法，不再进行后续步骤
+         * 如果toString返回的是复合类型的值，则报错
+         */
+        let obj = {
+            a: 1
+        }
+
+        console.log(Number(obj)); // NaN： {a: 1} => [object Object] => NaN
+        console.log(String(obj)); // [object Object]
+
+        /**
+         * String函数，显式对原始类型进行转换的规则
+         * 数值：转为相应的字符串
+         * 字符串：还是原来的值
+         * 布尔值：true转为'true'，false转为'false'
+         * undefined：转为'undefined'
+         * null：转为'null'
+         */
+        /**
+         * String函数，显式/隐式对对象类型进行转换的规则
+         * 先调用toString方法，如果返回的是原始类型的值，则对该值使用String方法，不再进行以下步骤
+         * 如果toString返回的是复合类型的值，则再调用valueOf方法，如果valueOf返回的是原始类型的值，则对该值使用String方法，不再进行以下步骤
+         * 如果valueOf返回的是复合类型的值，则报错
+         */
+        
+        /**
+         * 如果重写了[Symbol.toPrimitive]的函数，两种变换都会优先执行这个函数的逻辑，无视以上执行顺序
+         */
+        let obj2 = {
+            b: 2,
+            toString: function() {
+                return {
+                    c: 3
+                }
+            },
+            // 由于valueOf返回的是对象本身，返回的是复合类型，不重新定义就会走到最后一步，报错
+            valueOf: function() {
+                return 4;
+            },
+            [Symbol.toPrimitive]() {
+                return 100;
+            }
+        };
+
+        console.log(String(obj2));
+
+        /**
+         * Boolean，显示转换
+         * undefined，null，NaN，+0，,0，空字符串，都是转换为false，其余都为true
+         */
+    </script>
+</body>
+
+</html>

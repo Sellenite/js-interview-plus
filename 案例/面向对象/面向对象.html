@@ -81,6 +81,7 @@
             d1.play.push(7)
             // 组合继承结合了构造函数继承和原型链继承的优点
             // 不存在属性共享问题
+            // 多了一次执行父元素的构造函数
             // 由于Child没有自己的constructor
             // 这时候d1，d2的constructor仍然指向Parent3
             console.log(d1.play, d2.play, d1.constructor)
@@ -115,7 +116,7 @@
             console.log(d3.play, d4.play, d3.constructor, d3 instanceof Parent4)
             console.log(plus1.constructor)
 
-            // 组合继承优化2(最终方案)
+            // 组合继承优化2(最终方案)，寄生组合继承
             function Parent5() {
                 this.name = 'Parent5'
                 this.play = [4, 5, 6]
@@ -143,7 +144,7 @@
             console.log(plus2.constructor)
 
             // 网上另外搜的方案，等同于最终方案的思想
-            // 类似ES6 extends super方法继承
+            // 其实就是将Object.create分离成原理
             var ParentF = function () {
                 this.name = 'ParentF'
                 this.play = [7, 8, 9]
