@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>通信类</title>
+</head>
+
+<body>
+	<div>
+		<p>同源策略及限制</p>
+		<p>不同源：协议，域名和端口，有一个不一样，就是不同源</p>
+		<p>cookie，localStorage，indexDB无法读取</p>
+		<p>DOM无法获得</p>
+		<p>ajax浏览器拦截响应</p>
+		<p>webSocket不受同源的限制</p>
+	</div>
+	<div>
+		<p>跨域方法</p>
+		<p>jsonp，hash，postMessage，webSocket，cors</p>
+	</div>
+	<script>
+		// hash跨域伪代码
+		// 利用hash，当前场景是A通过iframe，跨域请求iframe中的B
+		// A中的伪代码如下
+		var B = document.getElementsByTagName('iframe');
+		B.src = B.src + '#' + 'data'; // data是json字符串即可
+
+		// 在B中的处理
+		window.onhashchange = function() {
+			var data = window.location.hash;
+		}
+
+		// h5，postMessage
+		// 窗口A向窗口B跨域
+		// 在窗口A中拿到B的window对象
+		Bwindow.postMessage('data', 'http://B.com');
+		// 在窗口B中监听
+		window.addEventListener('message', function(event) {
+			event.origin // http://A.com
+			event.source // Awindow
+			event.data // data
+		})
+	</script>
+</body>
+
+</html>
