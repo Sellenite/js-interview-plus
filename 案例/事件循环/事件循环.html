@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>事件循环</title>
+</head>
+
+<body>
+	<div id="app">
+		<div>
+			<p>事件队列里可以放置执行macroTask和microTask</p>
+			<p>macrotasks和microtask有哪些</p>
+			<p>macrotasks: script, setTimeout, setInterval, setImmediate, I/O, UI rendering</p>
+			<p>microtasks: process.nextTick, Promise, MutationObserver</p>
+		</div>
+		<div>
+			<p>执行顺序</p>
+			<p>首先执行宏队列中取出第一个，一段script就是相当于一个macrotask,所以他先会执行同步代码，当遇到例如setTimeout的时候，就会把这个异步任务推送到宏队列队尾中。
+			<p>当前macrotask执行完成以后，就会从微队列中取出位于头部的异步任务进行执行，然后微队列中任务的长度减一。</p>
+			<p>然后继续从微队列中取出任务，直到整个队列中没有任务。如果在执行微队列任务的过程中，又产生了microtask，那么会加入整个队列的队尾，也会在当前的周期中执行</p>
+			<p>当微队列的任务为空了，那么就需要执行下一个macrotask，执行完成以后再执行微队列，以此反复。</p>
+			<p>总结下来就是不断从task队列中按顺序取task执行，每执行完一个task都会检查microtask是否为空，不让过不为空就执行队列中的所有microtask。然后在取下一个task以此循环</p>
+			<p>一个macroTask只会在一次事件循环中执行一次，里面的microTask可以执行多次，当当前的macroTask里的任务都执行完毕后，才开始下一个macroTask</p>
+		</div>
+		<div>
+			<p>vue中的nextTick原理</p>
+			<p>在数据变化后要执行的某个操作，当你设置 vm.someData = 'new value'，DOM并不会马上更新，而是在异步队列被清除，也就是下一个事件循环开始时执行更新时才会进行必要的DOM更新。如果此时你想要根据更新的 DOM 状态去做某些事情，就会出现问题</p>
+			<p>优先使用Promise、MutationObserver因为这两个方法的回调函数都会在microtask中执行，他们会比setTimeout更早执行，所以优先使用</p>
+			<p>最后都不支持就降级为setTimeout执行</p>
+		</div>
+		<div>
+			<p>vue异步更新策略</p>
+			<p>假如在短时间内对一个数值进行循环操作，那么每次循环都会将回调放进watcher里</p>
+			<p>但vue不会将每一个watcher都放进dep里，他会对比，避免加入了多个同一个watcher</p>
+			<p>最后run方法的调用会在nextTick中调用，也就是先前提到的microtask中进行调用。从而输出结果，完成了一次数据修改，更改dom的操作</p>
+		</div>
+	</div>
+	<script>
+		console.log('script start');
+
+		setTimeout(() => {
+			console.log('eventLoop macroTask');
+			Promise.resolve().then(() => {
+				console.log('microTask promise1 in macroTask');
+			}).then(() => {
+				console.log('microTask promise2 in macroTask');
+			});
+		}, 0);
+
+		Promise.resolve().then(() => {
+			console.log('script microTask promise1');
+		}).then(() => {
+			console.log('script microTask promise2');
+		});
+
+		console.log('script end');
+
+		/**
+		 * 输出顺序
+		 * script start
+		 * script end
+		 * script microTask promise1
+		 * script microTask promise2
+		 * eventLoop macroTask
+		 * microTask promise1 in macroTask
+		 * microTask promise2 in macroTask
+		 */
+	</script>
+</body>
+
+</html>
